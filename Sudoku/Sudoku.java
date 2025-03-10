@@ -7,7 +7,7 @@ import java.util.Random;
 import javax.swing.*;
 
 /**
- * Class that holds and handles the game logic
+ * Class that holds and handles all the game logic
  */
 public class Sudoku {
 
@@ -15,12 +15,12 @@ public class Sudoku {
      * Class for tiles on the {@Link Sudoku} board
      */
     class Tile extends JButton {
-        int r;
-        int c;
+        int row;
+        int col;
 
-        Tile(int r, int c) {
-            this.r = r;
-            this.c = c;
+        Tile(int row, int col) {
+            this.row = row;
+            this.col = col;
         }
     }
 
@@ -57,21 +57,7 @@ public class Sudoku {
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                int choice = JOptionPane.showConfirmDialog(
-                        frame,
-                        "Are you sure you want to exit?",
-                        "Exit Confirmation",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE);
-
-                if (choice == JOptionPane.YES_OPTION) {
-                    frame.dispose();
-                }
-            }
-        });
+        windowClosingSettings(frame);
 
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
@@ -121,6 +107,28 @@ public class Sudoku {
 
     }
 
+    /*
+     * Causes that when leaving the game the player has to click a confirmation
+     * window
+     */
+    private void windowClosingSettings(Frame frame) {
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int choice = JOptionPane.showConfirmDialog(
+                        frame,
+                        "Are you sure you want to exit?",
+                        "Exit Confirmation",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    frame.dispose();
+                }
+            }
+        });
+    }
+
     /**
      * Open {@Link ConfirmationWindow} to either check if the user wants to be given
      * the solution or to check if the user wants to create a new puzzle
@@ -132,6 +140,10 @@ public class Sudoku {
         new ConfirmationWindow(this, newPuzzle);
     }
 
+    /*
+     * Opens a new Window to indicate, that the player won and to show their
+     * accuracy in which they solved the puzzle
+     */
     private void openVictoryWindow() {
         new VictoryWindow(this, errors, numOfMoves);
     }
@@ -196,45 +208,44 @@ public class Sudoku {
                     tile.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 5, Color.black));
                 else
                     tile.setBorder(BorderFactory.createLineBorder(Color.black));
-                // Removes outline
                 tile.setFocusable(false);
                 boardPanel.add(tile);
 
-                tile.addActionListener(new ActionListener() {
-
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // Get Source of tile you clicked on
-                        Tile tile = (Tile) e.getSource();
-                        int r = tile.r;
-                        int c = tile.c;
-                        if (numSelected != null) {
-                            if (tile.getText() != "")
-                                return;
-                            String numSelText = numSelected.getText();
-                            String tileSolution = Integer.toString(solution[r][c]);
-                            // Update number of moves performed
-                            numOfMoves++;
-                            if (tileSolution.equals(numSelText)) {
-                                tile.setText(numSelText);
-                                // Update the puzzle String
-
-                                updatePuzzle(r, c);
-
-                                // Check if the game is complete, if so open the Window to show that the player
-                                // won
-                                if (checkVictory(false))
-                                    openVictoryWindow();
-                            } else {
-                                errors++;
-                                textLabel.setText("Mistakes: " + String.valueOf(errors));
-                            }
-                        }
-                    }
-
-                });
+                addListenerToTile(tile);
             }
         }
+    }
+
+    private void addListenerToTile(Tile tile) {
+        tile.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get Source of tile you clicked on
+                Tile tile = (Tile) e.getSource();
+                int r = tile.row;
+                int c = tile.col;
+                if (numSelected != null) {
+                    if (tile.getText() != "")
+                        return;
+                    String numSelText = numSelected.getText();
+                    String tileSolution = Integer.toString(solution[r][c]);
+                    numOfMoves++;
+                    if (tileSolution.equals(numSelText)) {
+                        tile.setText(numSelText);
+
+                        updatePuzzle(r, c);
+
+                        if (checkVictory(false))
+                            openVictoryWindow();
+                    } else {
+                        errors++;
+                        textLabel.setText("Mistakes: " + String.valueOf(errors));
+                    }
+                }
+            }
+
+        });
     }
 
     /**
