@@ -8,6 +8,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/*
+ * Class to handle two purposes:
+ * 1. Solve the current Sudoku
+ * 2. Create a new Sudoku
+ * This is switched through the boolean {@Link newPuzzle}
+ */
 public class ConfirmationWindow extends JFrame {
 
     JLabel textLabel = new JLabel();
@@ -60,6 +66,13 @@ public class ConfirmationWindow extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Either solves the puzzle or sets up an entirely new one from the given sudoku
+     * object
+     * 
+     * @param sudoku
+     * @param newPuzzle
+     */
     private void confirm(Sudoku sudoku, boolean newPuzzle) {
         if (newPuzzle)
             sudoku.setUpNewPuzzle();
@@ -68,6 +81,9 @@ public class ConfirmationWindow extends JFrame {
         this.dispose();
     }
 
+    /**
+     * Simply closes the frame when clicking the cancel button
+     */
     private void cancel() {
         this.dispose();
     }

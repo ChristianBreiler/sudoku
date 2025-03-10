@@ -154,10 +154,10 @@ public class Sudoku {
      */
     public void setUpNewPuzzle() {
         solution = generateSolvedSudoku();
-
         puzzle = removeNumbers(solution, MIN_NUM_TO_REMOVE);
-
         setUpTiles();
+        errors = 0;
+        numOfMoves = 0;
         solvedPuzzle = false;
 
     }

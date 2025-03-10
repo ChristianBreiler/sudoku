@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
+/*
+ * JFrame Window that indicates that the player won the Sudoku game and shows 
+ * the amount of mistakes the player made compared to the number of move, which 
+ * is shown as the accuracyF
+ */
 public class VictoryWindow extends JFrame {
 
     JPanel buttonPanel = new JPanel();
@@ -15,6 +20,7 @@ public class VictoryWindow extends JFrame {
     JLabel movesLabel = new JLabel();
     JLabel mistakesLabel = new JLabel();
     JLabel accuracyLabel = new JLabel();
+    JPanel labelPanel = new JPanel(new GridLayout(3, 1));
 
     int width = 300;
     int height = 250;
@@ -30,7 +36,6 @@ public class VictoryWindow extends JFrame {
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         this.add(titleLabel, BorderLayout.NORTH);
 
-        JPanel labelPanel = new JPanel(new GridLayout(3, 1));
         List<JLabel> labels = List.of(movesLabel, mistakesLabel, accuracyLabel);
         List<String> text = grading(mistakes, numberOfMoves);
 
@@ -55,12 +60,29 @@ public class VictoryWindow extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Gives each a label their attributes (in the constructor this is done for all
+     * three given labels)
+     * 
+     * @param textLabel
+     * @param text
+     */
     private void setUpLabel(JLabel textLabel, String text) {
         textLabel.setFont(new Font("Arial", Font.BOLD, 20));
         textLabel.setHorizontalAlignment(JLabel.CENTER);
         textLabel.setText(text);
     }
 
+    /**
+     * Returns three Strings as a List. The first is the number of moves the player
+     * did overall to win the game of Sudoku they just finished. The second
+     * is the number of mistakes they did. The third is the accuracy which is
+     * calculated from the previous two.
+     * 
+     * @param mistakes
+     * @param numberOfMoves
+     * @return
+     */
     private List<String> grading(int mistakes, int numberOfMoves) {
         List<String> res = new ArrayList<>();
         res.add("Total Number of Moves: " + numberOfMoves);
@@ -71,6 +93,12 @@ public class VictoryWindow extends JFrame {
         return res;
     }
 
+    /**
+     * Closes the game after the player clicks the confirm button. Also starts a new
+     * puzzle in the Sudoku class
+     * 
+     * @param sudoku
+     */
     private void confirm(Sudoku sudoku) {
         sudoku.setUpNewPuzzle();
         this.dispose();
