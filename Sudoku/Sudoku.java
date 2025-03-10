@@ -78,7 +78,7 @@ public class Sudoku {
 
         textLabel.setFont(new Font("Arial", Font.BOLD, 30));
         textLabel.setHorizontalAlignment(JLabel.CENTER);
-        textLabel.setText("Sudoko: 0");
+        textLabel.setText("Mistakes: 0");
 
         textPanel.add(textLabel);
         frame.add(textPanel, BorderLayout.NORTH);
@@ -130,6 +130,10 @@ public class Sudoku {
      */
     private void openConfirmationWindow(boolean newPuzzle) {
         new ConfirmationWindow(this, newPuzzle);
+    }
+
+    private void openVictoryWindow() {
+        new VictoryWindow(this, errors, numOfMoves);
     }
 
     /**
@@ -217,11 +221,13 @@ public class Sudoku {
 
                                 updatePuzzle(r, c);
 
-                                // Check if the game is complete
-                                checkVictory(false);
+                                // Check if the game is complete, if so open the Window to show that the player
+                                // won
+                                if (checkVictory(false))
+                                    openVictoryWindow();
                             } else {
                                 errors++;
-                                textLabel.setText("Sudoku: " + String.valueOf(errors));
+                                textLabel.setText("Mistakes: " + String.valueOf(errors));
                             }
                         }
                     }
