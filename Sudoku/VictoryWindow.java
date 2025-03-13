@@ -32,6 +32,9 @@ public class VictoryWindow extends JFrame {
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
 
+        ImageIcon img = new ImageIcon(getClass().getResource("/img/images.png"));
+        this.setIconImage(img.getImage());
+
         titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         this.add(titleLabel, BorderLayout.NORTH);
@@ -101,6 +104,7 @@ public class VictoryWindow extends JFrame {
      */
     private void confirm(Sudoku sudoku) {
         sudoku.setUpNewPuzzle();
+        sudoku.windowIsOpen = false;
         this.dispose();
     }
 }

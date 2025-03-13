@@ -1,5 +1,6 @@
 package Sudoku;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,6 +31,9 @@ public class ConfirmationWindow extends JFrame {
         // cant close it
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLocationRelativeTo(null);
+
+        ImageIcon img = new ImageIcon(getClass().getResource("/img/images.png"));
+        this.setIconImage(img.getImage());
 
         textLabel.setFont(new Font("Arial", Font.BOLD, 20));
         textLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -78,6 +82,7 @@ public class ConfirmationWindow extends JFrame {
             sudoku.setUpNewPuzzle();
         else
             sudoku.solvePuzzle();
+        sudoku.windowIsOpen = false;
         this.dispose();
     }
 

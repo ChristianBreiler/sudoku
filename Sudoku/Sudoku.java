@@ -47,6 +47,7 @@ public class Sudoku {
     int numOfMoves = 0;
 
     boolean solvedPuzzle = false;
+    public boolean windowIsOpen = false;
 
     /**
      * Constructor that sets up the game, changes the {@Link frame} and all of the
@@ -56,6 +57,9 @@ public class Sudoku {
         frame.setSize(boardWidth, boardHeight);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        ImageIcon img = new ImageIcon(getClass().getResource("/img/images.png"));
+        frame.setIconImage(img.getImage());
 
         windowClosingSettings(frame);
 
@@ -87,14 +91,19 @@ public class Sudoku {
 
         solutionButton.setBackground(Color.lightGray);
         solutionButton.addActionListener(e -> {
-            if (!solvedPuzzle)
+            if (!solvedPuzzle && !windowIsOpen) {
                 openConfirmationWindow(false);
+                windowIsOpen = true;
+            }
         });
 
         actionsButtonsPanel.add(solutionButton);
 
         newPuzzleButton.addActionListener(e -> {
-            openConfirmationWindow(true);
+            if (!windowIsOpen) {
+                openConfirmationWindow(true);
+                windowIsOpen = true;
+            }
         });
 
         bottomPanel.add(actionsButtonsPanel, BorderLayout.SOUTH);
