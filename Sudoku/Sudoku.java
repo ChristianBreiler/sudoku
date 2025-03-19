@@ -290,7 +290,7 @@ public class Sudoku {
      * Sets up all of the buttons on the playing field
      */
     private void setUpButtons() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i < 10; i++) {
             JButton button = new JButton();
             button.setFont(new Font("Arial", Font.BOLD, 20));
             button.setText(String.valueOf(i));
