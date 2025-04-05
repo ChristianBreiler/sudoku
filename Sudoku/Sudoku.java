@@ -194,29 +194,29 @@ public class Sudoku {
      * {@Link ActionListener} to each so they can be interacted with
      */
     private void setUpTiles() {
+
         boardPanel.removeAll();
         boardPanel.revalidate();
         boardPanel.repaint();
 
         for (int r = 0; r < BOARD_SIZE; r++) {
+
             for (int c = 0; c < BOARD_SIZE; c++) {
+
                 Tile tile = new Tile(r, c);
+
                 if (puzzle[r][c] != -1) {
                     tile.setFont(new Font("Arial", Font.BOLD, 20));
                     tile.setText(Integer.toString(puzzle[r][c]));
                     tile.setBackground(Color.lightGray);
+
                 } else {
                     tile.setFont(new Font("Arial", Font.PLAIN, 20));
                     tile.setBackground(Color.white);
                 }
-                if ((r == 2 && c == 2) || (r == 2 && c == 5) || (r == 5 && c == 2) || (r == 5 && c == 5))
-                    tile.setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, Color.black));
-                else if (r == 2 || r == 5)
-                    tile.setBorder(BorderFactory.createMatteBorder(1, 1, 5, 1, Color.black));
-                else if (c == 2 || c == 5)
-                    tile.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 5, Color.black));
-                else
-                    tile.setBorder(BorderFactory.createLineBorder(Color.black));
+
+                createTileBorders(tile, r, c);
+
                 tile.setFocusable(false);
                 boardPanel.add(tile);
 
@@ -225,21 +225,43 @@ public class Sudoku {
         }
     }
 
+    /*
+     * Sets up the Borders of the Tiles in black to make the board look better
+     */
+    private void createTileBorders(Tile tile, int r, int c) {
+
+        if ((r == 2 && c == 2) || (r == 2 && c == 5) || (r == 5 && c == 2) || (r == 5 && c == 5))
+            tile.setBorder(BorderFactory.createMatteBorder(1, 1, 5, 5, Color.black));
+
+        else if (r == 2 || r == 5)
+            tile.setBorder(BorderFactory.createMatteBorder(1, 1, 5, 1, Color.black));
+
+        else if (c == 2 || c == 5)
+            tile.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 5, Color.black));
+
+        else
+            tile.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+
     private void addListenerToTile(Tile tile) {
         tile.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Get Source of tile you clicked on
+
                 Tile tile = (Tile) e.getSource();
                 int r = tile.row;
                 int c = tile.col;
+
                 if (numSelected != null) {
+
                     if (tile.getText() != "")
                         return;
+
                     String numSelText = numSelected.getText();
                     String tileSolution = Integer.toString(solution[r][c]);
                     numOfMoves++;
+
                     if (tileSolution.equals(numSelText)) {
                         tile.setText(numSelText);
 
@@ -247,6 +269,7 @@ public class Sudoku {
 
                         if (checkVictory(false))
                             openVictoryWindow();
+
                     } else {
                         errors++;
                         textLabel.setText("Mistakes: " + String.valueOf(errors));
@@ -269,7 +292,9 @@ public class Sudoku {
             return true;
 
         for (int r = 0; r < BOARD_SIZE; r++) {
+
             for (int c = 0; c < BOARD_SIZE; c++) {
+
                 if (puzzle[r][c] != solution[r][c] || puzzle[r][c] == -1) {
                     return false;
                 }
