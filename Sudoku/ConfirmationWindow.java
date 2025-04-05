@@ -58,7 +58,7 @@ public class ConfirmationWindow extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                cancel();
+                cancel(sudoku);
             }
 
         });
@@ -89,7 +89,8 @@ public class ConfirmationWindow extends JFrame {
     /**
      * Simply closes the frame when clicking the cancel button
      */
-    private void cancel() {
+    private void cancel(Sudoku sudoku) {
+        sudoku.windowIsOpen = false;
         this.dispose();
     }
 
