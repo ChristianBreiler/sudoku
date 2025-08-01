@@ -83,6 +83,7 @@ public class ConfirmationWindow extends JFrame {
         else
             sudoku.solvePuzzle();
         sudoku.windowIsOpen = false;
+        sudoku.resetParameters();
         this.dispose();
     }
 

@@ -105,6 +105,7 @@ public class VictoryWindow extends JFrame {
     private void confirm(Sudoku sudoku) {
         sudoku.setUpNewPuzzle();
         sudoku.windowIsOpen = false;
+        sudoku.resetParameters();
         this.dispose();
     }
 }

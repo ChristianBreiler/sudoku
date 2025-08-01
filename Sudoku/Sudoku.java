@@ -116,6 +116,12 @@ public class Sudoku {
 
     }
 
+    public void resetParameters() {
+        errors = 0;
+        textLabel.setText("Mistakes: " + String.valueOf(errors));
+        numOfMoves = 0;
+    }
+
     /*
      * Causes that when leaving the game the player has to click a confirmation
      * window
